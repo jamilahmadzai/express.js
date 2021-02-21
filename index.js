@@ -5,9 +5,16 @@ const members = require("./Members");
 
 const app = express();
 
+//view Engine
+app.set("view engine", "ejs");
+
 //body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req, res) => {
+  res.render("index.ejs", { title: "Members", members });
+});
 
 //get all members
 app.get("/api/members", (req, res) => {
@@ -43,7 +50,8 @@ app.post("/api/members", (req, res) => {
     res.status(404).send("Please inculde a name and an email");
   } else {
     members.push(newMember);
-    res.send(members);
+    // res.send(members);
+    res.redirect("/");
   }
 });
 
